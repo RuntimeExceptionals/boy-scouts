@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    .invoice-header div{
+      display: inline-block;
+    }
+    .invoice-instr-total-container{
+      position:relative;
+    }
+    .invoice-instr-total-container div{
+      display: inline-block;
+    }
+
+    .invoice-header .invoice-header-company{
+      padding-right: 10em;
+    }
+
+    .invoice-header .invoice-header-info{
+
+    }
+
+    #invoices{
+      width: 550px;
+      margin-left: 5em;
+    }
+
+    .invoice {
+      width:100%;
+    }
+
+    .invoice-billing-delivery-addr-container div{
+      display: inline-block;
+      margin:1em;
+      padding-top: 3em;
+    }
+
+    .invoice-itemized th{
+      padding-left:3em;
+      padding-right:1em;
+
+    }
+
+    .invoice-itemized td{
+      padding-left:3em;
+      align: right;
+    }
+
+    .invoice-itemized table{
+      border: 1px solid #ECF0F1;
+    }
+
+    .invoice-itemized tbody tr:nth-child(even){
+      background:#ECF0F1;
+    }
+
+    .invoice-instructions{
+      margin-top:2em;
+      margin-right:0em;
+      background-color: #ECF0F1;
+      border: 3px solid #ECF0F1;
+      width:40%;
+    }
+    .invoice-totals{
+      position:absolute;
+      top: 0px;
+      right: 0px;
+    }
+
+    .total span{
+      background-color: #ECF0F1;
+      border: 3px solid #2E2F30;
+    }
+
+
+    #content{
+      margin-left: 3em;
+    }
+
+    #pdf-download-link {
+        text-align: center;
+    }
+    .request-changes-description hr{
+        margin: 2px;
+    }
+    .center-text {
+        text-align:center;
+        margin: 0em;
+    }
+    .small-text{
+        font-size: 0.8em;
+    }
+
+    .letter-payment-slip{
+        padding-top:3em;
+    }
+    .return-to-label{
+        display:inline-block;
+        vertical-align: top;
+    }
+    .return-to-addr{
+        display:inline-block;
+    }
+    .letter-return-to{
+        padding-bottom: 2em;
+    }
+    .letter-body {
+        padding-top: 5em;
+    }
+
+</style>
+</head>
+<body>
+  <%= yield %>
+</body>
+</html>

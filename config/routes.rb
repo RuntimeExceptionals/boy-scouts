@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  get 'routes/view_routes'
-  get 'routes/view_route'
+  get 'welcome/index'
+  root 'welcome#index'
+  
+  get 'routes/view_routes' => 'routes#view_routes', as: :view_routes
 
-  get 'group/view_groups'
+  get 'group/view_groups' => 'group#view_groups', as: :view_groups
   get 'group/view_group'
 
   get 'run_sheets/generate_runsheet'
@@ -11,24 +13,12 @@ Rails.application.routes.draw do
   get 'run_sheets/generate_runsheets'
   get 'run_sheets/generate_runsheets_pdf'
 
-
-  get 'payment/generate_invoice'
-  get 'payment/generate_invoice_pdf'
-
-  get 'payment/generate_invoices'
-  get 'payment/generate_invoices_pdf'
-
-
-
+  get 'subscription/:group_id/invoices' => 'subscription#index', as: :view_invoices
+  get 'subscription/:group_id/generate_invoices' => 'subscription#generate_invoices', as: :generate_invoices
+  get 'subscription/:group_id/generate_invoices_pdf' => 'subscription#generate_invoices_pdf', as: :generate_invoices_pdf
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  get 'welcome/index'
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -1,0 +1,82 @@
+// Place all the styles related to the subscribtion controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.invoice-header div{
+  display: inline-block;
+}
+.invoice-instr-total-container{
+  position:relative;
+}
+.invoice-instr-total-container div{
+  display: inline-block;
+}
+
+.invoice-header .invoice-header-company{
+  padding-right: 10em;
+}
+
+.invoice-header .invoice-header-info{
+
+}
+
+#invoices{
+  width: 550px;
+  margin-left: 5em;
+}
+
+.invoice {
+  width:100%;
+}
+
+.invoice-billing-delivery-addr-container div{
+  display: inline-block;
+  margin:1em;
+  padding-top: 3em;
+}
+
+.invoice-itemized th{
+  padding-left:3em;
+  padding-right:1em;
+
+}
+
+.invoice-itemized td{
+  padding-left:3em;
+  align: right;
+}
+
+.invoice-itemized table{
+  border: 1px solid #ECF0F1;
+}
+
+.invoice-itemized tbody tr:nth-child(even){
+  background:#ECF0F1;
+}
+
+.invoice-instructions{
+  margin-top:2em;
+  margin-right:0em;
+  background-color: #ECF0F1;
+  border: 3px solid #ECF0F1;
+  width:40%;
+}
+.invoice-totals{
+  position:absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.total span{
+  background-color: #ECF0F1;
+  border: 3px solid #2E2F30;
+}
+
+
+#content{
+  margin-left: 3em;
+}
+
+#pdf-download-link{
+  text-align: center;
+
+}

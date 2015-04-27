@@ -1,5 +1,35 @@
+# Clearance testing.
+# https://robots.thoughtbot.com/faster-tests-sign-in-through-the-back-door
+class ClearanceBackDoor
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    @env = env
+    sign_in_through_the_back_door
+    @app.call(@env)
+  end
+
+  private
+
+  def sign_in_through_the_back_door
+    if user_id = params['as']
+      user = User.find(user_id)
+      @env[:clearance].sign_in(user)
+    end
+  end
+
+  def params
+    Rack::Utils.parse_query(@env['QUERY_STRING'])
+  end
+end
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+
+  # Utilize the clearance backdoor for testing.
+  config.middleware.use ClearanceBackDoor
 
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that

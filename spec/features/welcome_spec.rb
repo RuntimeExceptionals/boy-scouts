@@ -1,22 +1,14 @@
-# Welcome For New User or Welcome Back for Existing User
-feature "Welcome Screen" do
-    scenario "visitor is guest" do
-        visit '/'
-        expect(page).to have_title("Welcome!")
-    end
+# spec/features/welcome_spec.rb
+feature "Welcome screen" do
+  before { visit root_path }
 
-    scenario "visitor is user" do
-    	user = User.create! :email => 'user3@boyscoutsfd.com', :password => 'secret', :admin => false
-        visit '/'
-        click_button "Login"
-        visit '/sign_in'
-        expect(page).to have_content("Sign in")
-        fill_in 'session_email', :with => "user@boyscoutsfd.com"
-        fill_in 'session_password', :with => "secret"
-        find('input[type="submit"]').click
-        #visit '/'
-        #click_button "submit"
-        expect(page).to have_content("Welcome back!")
-    #expect(page).to have_title("Welcome Back!")
-    end
+  scenario "visitor cannot access routes" do
+    expect(page).not_to have_selector(:link_or_button, "Routes")
+  end
+
+  scenario "users can access routes" do
+    user = User.create :email => 'a@b.com', :password => 'tests', :can_view_routes => true
+    visit root_path(as: user)
+    expect(page).to have_link("Routes")
+  end
 end

@@ -7,7 +7,6 @@ gem 'factory_girl_rails'
 gem 'rails', '4.2.1'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -26,7 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # User authencation and Roles
 gem 'clearance'
-gem 'cancan'
+gem 'cancancan'
 
 # Admin Interface
 gem 'rails_admin'
@@ -34,13 +33,25 @@ gem 'rails_admin'
 # Bootstrap for views.
 gem 'bootstrap-sass'
 
+# Additions for Bootstrap navigation bar.
+gem 'active_link_to'
+
 # Autoprefix css browser extensions.
 gem 'autoprefixer-rails'
 
+gem 'wicked_pdf'
+
+gem 'acts_as_tree'
 
 group :development, :test do
   # Include Capybara
   gem 'capybara'
+
+  gem 'io-console'
+
+  #Cucumber Gem for testing
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
   
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -55,6 +66,10 @@ group :development, :test do
   gem 'rspec-rails'
 
   gem 'wkhtmltopdf'
+  gem 'unicorn'
+  gem 'puma'
+  gem 'sqlite3'
+
 end
 
 group :production do

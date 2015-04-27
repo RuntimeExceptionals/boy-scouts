@@ -6,6 +6,7 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
+  <% unless defined?(@no_header) %>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -23,19 +24,27 @@
    
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <!-- TODO: Make tab active when page is active. -->
-          <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "Welcome", root_path %></li>
-          <li><%= link_to "Admin", "/admin" %></li>
+          <li class="<%= 'active' if current_page?(root_path) %>"><%= link_to "Home", root_path %></li>
+          <% if can? :access, :rails_admin %>
+            <!-- If we're an admin, give access to panel, invoices, and routes. -->
+            <%= active_link_to 'Admin', "/admin", :wrap_tag => :li %>
+            <%= active_link_to 'Routes', view_routes_url, :wrap_tag => :li %>
+          <% elsif can? :access, :routes %>
+            <% if can? :access, :troops %>
+              <%= active_link_to 'My Troops', view_groups_url, :wrap_tag => :li %>
+            <% end %>
+            <!-- Otherwise, only show routes to members. -->
+            <%= active_link_to 'My Routes', view_routes_url, :wrap_tag => :li %>
+          <% end %>   
         </ul>
         
         <!-- Show login and sign-up buttons when we're not logged in, but -->
         <!-- only show sign-out button when we are logged in. -->
         <% if signed_in? -%>
-          <button type="" class="btn btn-default navbar-right navbar-btn"><%= link_to "Logout", sign_out_path, :method => :delete %></button>
+          <div class="navbar-right"><%= link_to "Logout", sign_out_path, :method => :delete, :class => "btn btn-danger navbar-btn" %></div>
         <% else -%>
           <div class="navbar-right">
-            <button type="" class="btn btn-default navbar-btn"><%= link_to "Login", sign_in_path %></button>
-            <button type="" class="btn btn-default navbar-btn"><%= link_to "Sign up", sign_up_path %></button>
+            <%= link_to "Login", sign_in_path, :class => "btn btn-default navbar-btn" %>
           </div>
         <% end -%>
       </div>
@@ -44,10 +53,12 @@
   
   <div id="flash">
     <% flash.each do |key, value| -%>
-      <div id="flash_<%= key %>"><%=h value %></div>
+      <div class="alert alert-warning" role="alert">
+        <%=h value %>
+      </div>
     <% end %>
   </div>
-
+  <% end %>
   <%= yield %>
 </body>
 </html>

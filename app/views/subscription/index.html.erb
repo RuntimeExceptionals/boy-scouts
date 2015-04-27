@@ -1,0 +1,14 @@
+<div class="row" id="content">
+  <div class="col-sm-2" id="side-bar">
+    <ul class="list-group">
+      <li id="pdf-download-link" class="list-group-item"><%= link_to generate_invoices_pdf_url do%><h4>Download PDF</h4><% end %></li>
+      <% @invoices.each do |subscription| %>
+          <li class="list-group-item"><a href="#sub_<%= subscription.id %>"><%= subscription.first_name %> <%= subscription.last_name %> </a> </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-sm-10" id="side-bar" id="main">
+    <%= render template: "subscription/generate_invoices" %>
+  </div>
+
+</div>

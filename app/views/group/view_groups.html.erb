@@ -1,2 +1,29 @@
 <h1>Group#view_groups</h1>
 <p>Find me in app/views/group/view_groups.html.erb</p>
+
+<div id="my troops">
+	<% if @groups.size == 0 %>
+		<h3>You Have No Troops</h3>
+	<% else %>
+		<h3> Viewing troops for: </h3>
+		<% if @user.blank? %>
+			<h4> Troop Admin_first Troop Admin_last </h4>
+		<% else %>
+			<h4><%= @user.first_name %> <%= @user.last_name %></h4>
+		<% end %>
+		<% @groups.each do |troop| %>
+			<a name="group_<%= troop.name %>"> </a>
+			<div class="troop">
+				<div class="troop-header">
+				<h3><%= troop.name %></h3>
+				</div>
+
+				<div class="troop-functions">
+					<!--<tr><td><a href=""> Routes </a></td><td><a href=""> Invoices </a></td></tr>-->
+					<li id="invoice-link"><%= link_to view_invoices_url(:group_id => troop.id) do %> View Invoices<% end %></li>
+					<li id="routes-link"><%= link_to view_route_url(:group_id => troop.id) do %> View Routes<% end %></li>
+				</div>
+			</div>
+		<% end %>
+	<% end %>
+</div>

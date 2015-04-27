@@ -1,16 +1,28 @@
 class Ability
+
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new
-    if user.admin?
-      can :access, :rails_admin       # only allow admin users to access Rails Admin
-      can :dashboard                  # allow access to dashboard
+    # Handle guest users.
+    if (!user)
+      return
     end
-    #if user.can_view_routes?
-      #can :view_routes
-    #end
 
+    if user.is? :admin
+      # TODO
+      can :access, :rails_admin
+      can :dashboard
+      can :manage, :all
+    elsif user.is? :leader
+      # TODO
+      can :access, :routes
+      can :access, :troops
+    elsif user.is? :member
+      # TODO
+      can :access, :routes
+    else
+      # TODO
+    end
   end
-
+  
 end
