@@ -1,5 +1,5 @@
 <div id="my troops">
-	<% if @groups.size == 0 %>
+	<% if @groups.blank? %>
 		<div class="alert alert-info" role="alert">
 			<p>You Have No Troops</p>
 		</div>
@@ -11,32 +11,29 @@
 		Incomplete test so I am commenting it out for now. G
 	-->
 	<% else %>
-		<h3> Viewing troops for: </h3>
-		<% if @user.blank? %>
-			<h4> Troop Admin_first Troop Admin_last </h4>
-		<% else %>
-			<h4><%= @user.first_name %> <%= @user.last_name %></h4>
+		<% if !@user.blank? %>
+      <div class="callout callout-empty">
+        <h4>Troops for: </h4>
+        <p><%=@user.first_name %> <%= @user.last_name %></p>
+      </div>
 		<% end %>
 		<% @groups.each do |troop| %>
-			<a name="group_<%= troop.name %>"> </a>
-			<div class="troop">
-				<div class="troop-header">
-				<h3><%= troop.name %></h3>
-				</div>
+      <div class="callout">
+				<h4><%= troop.name %></h4>
 
-				<div class="troop-functions">
-					<!--<tr><td><a href=""> Routes </a></td><td><a href=""> Invoices </a></td></tr>-->
-					<% if can? :access, :troops %>
-						<li id="invoice-link"><%= link_to view_invoices_url(:group_id => troop.id) do %> View Invoices<% end %></li>
-						<%= active_link_to 'Routes', view_routes_for_group_url(:id => troop.id), :wrap_tag => :li %>
-						<%= active_link_to 'Run Sheets', generate_runsheets_for_group_url(:id => troop.id), :wrap_tag => :li %>
-						<%= active_link_to 'Run Sheets PDF', generate_runsheets_pdf_url(:id => troop.id), :wrap_tag => :li %>
-					<% else %>
-						<%= active_link_to 'Routes', view_routes_for_group_url(:id => troop.id), :wrap_tag => :li %>
-						<%= active_link_to 'Run Sheets', generate_runsheets_for_group_url(:id => troop.id), :wrap_tag => :li %>
-					<% end %>
-				</div>
-			</div>
+				<% if can? :access, :troops %>
+          <%= link_to 'Invoices', view_invoices_url(:group_id => troop.id), :class => "btn btn-default" %>
+          <%= link_to 'Routes', view_routes_for_group_url(:id => troop.id), :class => "btn btn-default" %>
+          <div class="btn-group" aria-label="">
+            <%= link_to 'Run Sheets', generate_runsheets_for_group_url(:id => troop.id), :class => "btn btn-default" %>
+            <%= link_to 'PDF', generate_runsheets_pdf_url(:id => troop.id), :class => "btn btn-default" %>
+          </div>
+          <%= link_to 'Participation Report', report_pdf_url(:id => troop.id), :class => "btn btn-default" %>
+        <% else %>
+          <%= link_to 'Routes', view_routes_for_group_url(:id => troop.id), :class => "btn btn-default" %>
+          <%= link_to 'Run Sheets', generate_runsheets_for_group_url(:id => troop.id), :class => "btn btn-default" %>
+        <% end %>
+  		</div>
 		<% end %>
 	<% end %>
 </div>

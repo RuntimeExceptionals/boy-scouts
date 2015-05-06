@@ -81,8 +81,21 @@ class User < ActiveRecord::Base
       end
       groups_admin_for
     elsif self.is? :member
-      self.groups
+      self.groups.to_a
     end
+  end
+
+  def can_view_route(route)
+    if self.get_groups.blank?
+      return false
+    end
+
+    self.get_groups.each do |g|
+      if g.routes.where(:id => route.id)
+        return true
+      end
+    end
+    return false
   end
 
 end

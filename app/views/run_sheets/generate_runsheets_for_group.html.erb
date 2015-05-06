@@ -1,7 +1,5 @@
 
 <!-- This is the view page for generating runsheets -->
-<body>
-
 <style media='screen' type='text/css'>
 .zui-table {
     border: solid 1px #DDEEEE;
@@ -38,6 +36,26 @@
   padding: 20px 10px;
 }
 
+.columns-wrap {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.left {
+  width: 49%;
+  display: inline-block;
+}
+
+.right {
+  width: 49%;
+  display: inline-block;
+}
+
+p {
+  margin: 0;
+}
+
 </style>
 
 <% if @routes.empty? %>
@@ -55,18 +73,26 @@
     <div class="route">
       <h3><%= @nameHash[key].to_s %></h3>
 
-      <% if @generate_fields %>
-        <p>Morning Driver:</p>
-        <p>Morning Start Time:</p>
-        <p>Evening Driver:</p>
-        <p>Evening Start Time:</p>
-      <% end %>
-
       <% if @routesHash[key].empty? %>
         <div class="alert alert-info" role="alert">
           <p>No subscribers on this route.</p>
         </div>
       <% else %>
+
+        <% if @generate_fields %>
+        <div class="columns-wrap">
+          <div class="left">
+            <p>Morning Driver:</p>
+            <p>Morning Start Time:</p>
+          </div>
+
+          <div class="right">
+            <p>Evening Driver:</p>
+            <p>Evening Start Time:</p>
+          </div>
+        </div>
+        <% end %>
+
         <table class="zui-table zui-table-zebra zui-table-horizontal">
           <thead>
             <tr>
@@ -83,7 +109,7 @@
           <tbody>
             <% @routesHash[key].each do |subscriber| %>
   						<tr>								
-    						<td height="12px" style="border-spacing: 12px;"><%= subscriber.visit_sequence %></td>
+    						<td height="12px" style="border-spacing: 12px;"><%= subscriber.print_sequence %></td>
                 <td height="12px" style="border-spacing: 12px;"><%= subscriber.status %></td>
     						<td height="12px" style="border-spacing: 12px;"><%= subscriber.street_address %></td>
     						<td height="12px" style="border-spacing: 12px;"><%= subscriber.qty %></td>
@@ -94,8 +120,22 @@
     				<% end %>
   				</tbody>
   			</table>
+
+        <% if @generate_fields %>
+          <div class="columns-wrap">
+            <div class="left">
+              <p>Morning End Time:</p>
+              <p>Morning Scouts:</p>
+            </div>
+
+          <div class="right">
+            <p>Evening End Time:</p>
+            <p>Evening Scouts:</p>
+          </div>
+        </div>
+        <% end %>
+
   		<% end %>
     </div>
 	<% end %>
 <% end %>
-</body>

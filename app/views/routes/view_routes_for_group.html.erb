@@ -1,14 +1,1 @@
-<% if @routes.empty? %>
-    <div class="alert alert-info" role="alert">
-      <p>No routes to show.</p>
-    </div>
-<% else %>
-    <div class="list-group">
-      <% @routes.each do |route| %>
-          <a href="#" class="list-group-item">
-            <h4 class="list-group-item-heading"><%= route.name %></h4>
-            <p class="list-group-item-text"><%= route.group.name %></p>
-          </a>
-      <% end %>
-    </div>
-<% end %>
+ <%= render template: "routes/view_routes" %>

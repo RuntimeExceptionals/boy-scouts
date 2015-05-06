@@ -4,6 +4,22 @@
   <%= stylesheet_link_tag 'application' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tag %>
+
+  <style>
+
+  .callout {
+    padding: 5px 20px;
+    margin: 25px 30px;
+    border: 0px solid #eee;
+    border-left-width: 5px;
+    border-radius: 0px;
+  }
+
+  .callout-empty {
+    border-color: white;
+  }
+
+  </style>
 </head>
 <body>
   <% unless defined?(@no_header) %>

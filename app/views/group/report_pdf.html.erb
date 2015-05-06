@@ -1,0 +1,17 @@
+<h3>Troop Participation for Calendar Year</h3>
+<table id="troop-participation">
+  <tr>
+    <th>Troop Member</th>
+    <th>Runs</th>
+  </tr>
+  <% @group.users.order(:last_name).order(:first_name).each do | user | %>
+    <tr>
+      <td>
+        <%= user.display_name %>
+      </td>
+      <td>
+        <%= user.runs.where("created_at >= ? AND created_at <= ?", Date.today.beginning_of_year, Date.today.end_of_year).count %>
+      </td>
+    </tr>
+  <% end %>
+</table>

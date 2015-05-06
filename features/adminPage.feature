@@ -23,11 +23,6 @@ Feature: adminPage to view Database
   		When I click on the payments link 
   		Then I should land on the payments page
 
-  	Scenario: Accessing Run Sheets page
-  		Given I am on the admin page
-  		When I click on the generate run sheets link
-  		Then I should land on the generate run sheets page
-
   	Scenario: Access home page from admin page
   		Given I am on the admin page
   		When I click on the home link
@@ -63,3 +58,27 @@ Feature: adminPage to view Database
   		When I click on the tasks link
   		Then I should land on the tasks list page
 
+    Scenario: Generate runsheet pdf
+      Given I am on the admin page
+      When I click on the generate run sheets pdf link
+      Then I should land on the generate run sheets pdf page
+
+    Scenario: Generate runsheet
+      Given I am on the admin page
+      When I click on the generate run sheets link
+      Then I should land on the generate run sheets page
+
+    Scenario: Generate group report pdf
+      Given I am on the admin page
+      When I click on the generate group report pdf link
+      Then I should land on the generate group report pdf page
+
+    Scenario: Generate invoice pdf
+      Given I am on the admin page
+      When I click on the generate invoice pdf link
+      Then I should land on the generate invoice pdf page
+
+    Scenario: Generate invoice
+      Given I am on the admin page
+      When I click on the generate invoice link
+      Then I should land on the generate invoice page

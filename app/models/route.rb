@@ -5,8 +5,11 @@ class Route < ActiveRecord::Base
   has_and_belongs_to_many :users
 
   def self.routes_for(user)
+    if !user
+      return []
+    end
+
     case user.role 
-      when nil
       when :admin
         Route.all
       when :leader
@@ -17,14 +20,13 @@ class Route < ActiveRecord::Base
         leader_routes
       when :member
         user.routes
-      else
     end
   end
 
   def runs_in_progress
     in_progress = []
     self.runs.each do |run|
-      if run.in_progress? and run.datetime_started.to_date == Date.today()
+      if run.in_progress? and run.datetime_started.in_time_zone("Central Time (US & Canada)").to_date() == Date.today()
         in_progress.append(run)
       end
     end

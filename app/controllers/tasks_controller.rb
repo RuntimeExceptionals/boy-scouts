@@ -1,5 +1,7 @@
 class TasksController < ActionController::Base
     def set_task
+      #Used in view_route's view to mark or unmark tasks as completed
+
       @response = {}
       sub = Subscription.find(params[:sub_id])
       run = Run.find(params[:run_id])

@@ -6,7 +6,7 @@ RSpec.describe SubscriptionController, type: :controller do
 admin_role = Role.create! :role=> "SiteAdmin"
 
 #Create a group to function as a Troop and set the admin to the created default admin
-grouptest = Group.create! :name => "test group" unless Group.find_by_name('test group')
+grouptest = Group.create! :name => "test group" #unless Group.find_by_name('test group')
 grouptest.roles << admin_role unless grouptest.blank?
 
   describe "GET #generate_invoices" do

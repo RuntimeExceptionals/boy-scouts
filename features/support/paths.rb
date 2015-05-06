@@ -15,7 +15,19 @@ module NavigationHelpers
       '/admin'
 
     when /generate run sheets/
-      '/run_sheets/generate_runsheet'
+      '/run_sheets/generate_runsheets/1'
+
+    when /generate run sheets pdf/
+      '/run_sheets/generate_runsheets_pdf/1'
+
+    when /generate group report pdf/
+      '/group/1/report/pdf'
+
+    when /generate invoice pdf/
+      'subscription/1/generate_invoices_pdf'
+
+    when /generate invoice/
+      'subscription/1/generate_invoices'
 
     when /users/
       '/admin/user'

@@ -3,6 +3,9 @@ Given /^I am on the (.*) page/ do |name|
 end
 
 When /^I click on the (.*) link/ do |link|
+		if(link.starts_with?("generate"))
+			Group.create! :id => 1
+		end
 		visit path_to(link)
 end
 

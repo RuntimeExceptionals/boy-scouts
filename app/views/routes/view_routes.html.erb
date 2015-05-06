@@ -1,14 +1,14 @@
-<% if @routes.empty? %>
+<% if @routes.blank? %>
   <div class="alert alert-info" role="alert">
     <p>No routes to show.</p>
   </div>
 <% else %>
-  <div class="list-group">
   <% @routes.each do |route| %>
-    <a href="<%= view_route_url(route.id) %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= route.name %></h4>
-      <p class="list-group-item-text"><%= route.group.name %></p>
+    <div class="callout">
+    <a href="<%= view_route_url(route.id) %>">
+      <h4 class=""><%= route.name %></h4>
     </a>
+    <p class=""><%= route.group.name %></p>
+    </div>
   <% end %>
-</div>
 <% end %>

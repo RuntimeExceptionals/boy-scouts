@@ -1,17 +1,42 @@
-<%= form_for :session, url: session_path do |form| %>
-  <div class="text-field">
-    <%= form.label :email %>
-    <%= form.text_field :email, type: 'email' %>
-  </div>
+<style>
 
-  <div class="password-field">
-    <%= form.label :password %>
-    <%= form.password_field :password %>
-  </div>
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 
-  <div class="submit-field">
-    <%= form.submit %>
-  </div>
+</style>
+
+<%= form_for :session, html: { :class => "form-signin" }, url: session_path do |form| %>
+  <h2>Sign in</h2>
+
+  <%= form.text_field :email, type: 'email', :class => "form-control", :placeholder => "Email address" %>
+  <%= form.password_field :password, :class => "form-control", :placeholder => "Password" %>
+  <%= form.submit "Sign in",  :class => "btn btn-lg btn-primary btn-block" %>
 
   <div class="other-links">
     <% if Clearance.configuration.allow_sign_up? %>

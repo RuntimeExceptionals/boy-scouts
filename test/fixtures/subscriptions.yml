@@ -7,7 +7,7 @@ one:
   cell_phone: MyString
   landline: MyString
   route_id: 1
-  visit_sequence: 1
+  print_sequence: 1
   address_line_1: MyString
   address_line_2: MyString
   city: MyString
@@ -26,7 +26,7 @@ two:
   cell_phone: MyString
   landline: MyString
   route_id: 1
-  visit_sequence: 1
+  print_sequence: 1
   address_line_1: MyString
   address_line_2: MyString
   city: MyString

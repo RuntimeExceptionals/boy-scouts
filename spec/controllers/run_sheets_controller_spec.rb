@@ -1,8 +1,7 @@
 require 'rails_helper'
 
+
 RSpec.describe RunSheetsController, type: :controller do
-
-
 
   describe "GET #generate_runsheets_pdf" do
     it "returns http success" do

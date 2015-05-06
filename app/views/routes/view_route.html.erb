@@ -1,60 +1,151 @@
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 <div id="content">
     <div id="message">
 
     </div>
     <div id="route-header" class="row">
-      <div class="col-md-5">
-        <h2 id="route-name"><%= @route.name %></h2>
-      </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
+        <h1 id="route-name"><%= @route.name %></h1>
       </div>
       <div class="col-md-3">
-        <button id="begin_run_<%= @route.id %>">Begin Run!</button>
+        <button class="btn btn-primary btn-lg" id="begin_run_button" value="<%= @route.id %>" data-toggle="modal" data-target="#select-scouts-modal" >Begin Run!</button>
+        <button class="btn btn-primary btn-lg" id="end_run_button"   value="<%= @route.id %>" style="display:none;" >Finish Run!</button>
+      </div>
+      <div class="col-md-6">
+      </div>
       </div>
     </div>
     <div id="route-content">
       <% @route.subscriptions.each do | sub |  %>
       <div id="subscriber_<%=sub.id %>" class="row subscriber">
-        <div class="col-md-3">
-          <input id="subscriber_<%=sub.id %>_checkbox" value="<%=sub.id %>"  type="checkbox" class="hide-unless-run task-complete-checkbox" />
+        <div class="col-xs-3">
+          <span class="hide-unless-run">
+              <input id="subscriber_<%=sub.id %>_checkbox" value="<%=sub.id %>"  type="checkbox" class="task-complete-checkbox" />
+          </span>
         </div>
-        <div class="col-md-6">
+        <div class="col-xs-3 route-address" value="<%=sub.id %>" class="col-xs-3">
           <%= sub.street_address %>
         </div>
-        <div class="col-md-3">
-          <button >Add Maintenance Note</button>
+        <div class="col-xs-3">
+          <span class="hide-unless-run">
+            <button class="add-maintenance-note" value="<%=sub.id %>" data-toggle="modal" data-target="#maintenance-note-modal" >Add Maintenance Note</button>
+          </span>
         </div>
       </div>
       <div id="subscriber_<%=sub.id %>_info" style="display:none;" class="row subscriber_info">
         <div class="col-md-3">
           <%= sub.street_address %>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <%= sub.cell_phone %>
         </div>
         <div class="col-md-3">
           <%- sub.maintenance_notes %>
         </div>
       </div>
+
       <% end %>
 
     </div>
     <div id="route-footer">
 
     </div>
+
+  <div class="modal fade" id="select-scouts-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Select Scouts and Run Time</h4>
+        </div>
+        <div id="choose-scouts" class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="begin-run-submit" type="button" class="btn btn-primary">Begin Run!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="modal fade" id="maintenance-note-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add Maintenance Note</h4>
+          </div>
+          <div id="maintence-note-container" class="modal-body">
+            <textarea style="width:80%;height:80%;" id="maintence-note-text"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button id="maintenance-note-submit" type="button"  data-dismiss="modal" class="btn btn-primary">Submit Note.</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="maintenance-note-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add Maintenance Note</h4>
+          </div>
+          <div id="maintence-note-container" class="modal-body">
+            <textarea style="width:80%;height:80%;" id="maintence-note-text"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button id="maintenance-note-submit" type="button"  data-dismiss="modal" class="btn btn-primary">Submit Note.</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 </div>
+
 <script type="text/javascript">
   $(document).ready(function (){
+      var root_url = "<%= root_url %>";
       var run_progress_url = "<%= run_progress_url %>";
+      var route_info_url = "<%= view_route_run_info_url %>";
       var complete_task_url = "<%= set_task_url %>";
       var begin_run_url = "<%= begin_run_url %>";
       var end_run_url = "<%= end_run_url %>";
+      var add_maintenance_note_url = "<%= add_maintenance_note_url %>";
 
 
       var scouts = <%= raw(@route.group.troop_members.to_json) %>;
       var progress = <% if @route.runs_in_progress? %><%= raw(@route.runs_in_progress[0].to_json) %><% else %> undefined <% end %>
       var run; //Which run are we currently displaying information for.
+      var route_id = <%= @route.id %>;
       var run_is_started = false;
+
+      function populate_scouts(){
+          var scout_html = '<label class="radio-inline"><input type="radio" checked="checked" name="ampmradio" value="am">AM</label>'
+          scout_html += '<label class="radio-inline"> <input type="radio" name="ampmradio" value="pm">PM</label>'
+          for(var i = 0; i < scouts.length; i++){
+              scout_html += "<label class='checkbox' style='padding-left:2em;'><input type='checkbox' class='scout-checkbox' name='scout_ids[]' value='" + scouts[i]["id"] +"'>" + scouts[i]["name"] + "</label>";
+          }
+          $("#choose-scouts").html(scout_html);
+      }
+
+      function add_maintenance_note_modal(sub_id){
+        $("#maintenance-note-submit").val(sub_id);
+
+      }
+
+      function add_maintenance_note(){
+          var sub_id = $("#maintenance-note-submit").val();
+          var note = $("#maintence-note-text").val();
+          console.log({"sub_id":sub_id, "note":note })
+          send_post(add_maintenance_note_url, {"sub_id":sub_id, "note":note })
+      }
 
       function send_post(url, post, cb){
           if(cb == undefined) cb = handle_response
@@ -69,8 +160,6 @@
 
       function handle_response(data, status, jqXHR){
             //update_message(data["message"], data["type"])
-
-
       }
 
       function update_message(message, message_type){
@@ -84,13 +173,9 @@
           }, 5000);
       }
 
-      function clear_message(){
-
-      }
-
 
       function toggle_task_completion(sub_id){
-          console.log("Toggle task:" + sub_id)
+
           post_data = {"run_id": run["id"], "sub_id":sub_id}
           if ($('#subscriber_'+sub_id+'_checkbox').is(':checked')){
               post_data["request"] = 'create'
@@ -104,18 +189,43 @@
 
 
       function get_run_update(){
-            console.log("Fetching run update")
-            send_post(run_progress_url, {"run_id": run["id"]}, update_subscriptions)
+          if (run == undefined) {
+              send_post(route_info_url, {'route_id': route_id}, update_subscriptions);
+          }else {
+              send_post(run_progress_url, {"run_id": run["id"]}, update_subscriptions);
+          }
       }
 
       function run_started(){
-          run_is_started = true
-          var hidden = $('.hide-unless-run').show()
+          run_is_started = true;
+          var hidden = $('.hide-unless-run').show();
+          $("#begin_run_button").hide();
+          $("#end_run_button").show();
+
+          $(".task-complete-checkbox").bootstrapToggle({
+              on: get_task_on_text(),
+              off: get_task_off_text()
+          })
+      }
+
+      function begin_run() {
+          console.log("Starting Run");
+          var scouts_selected = $('.scout-checkbox:checked');
+          var scout_values = [];
+          for (var i = 0; i < scouts_selected.length; i++) {
+              scout_values.push(scouts_selected[i]["value"]);
+          }
+          var run_type = $("input:radio[name=ampmradio]:checked").val();
+          var data = {"route_id": route_id, "run_type": run_type, "user_ids": scout_values};
+          send_post(begin_run_url, data, function(){window.location.reload(true);})
       }
 
       function update_subscriptions(run_progress, status){
-          if (run_progress == undefined) return;
-          console.log(run_progress);
+          if (!run_progress) return;
+          if(run_is_started == false){
+              run = run_progress;
+              run_started();
+          }
           for(var i = 0; i < run_progress["todo"].length; i++){
             $('#subscriber_'+run_progress["todo"][i]["id"]+'_checkbox').bootstrapToggle('off')
           }
@@ -125,6 +235,10 @@
       }
 
       function get_task_on_text(){
+          if (run){
+              if (run["ampm"] == "am") return "Flag In";
+              if (run["ampm"] == "pm") return "Flag Out";
+          }
           var hours = new Date().getHours();
           var hours = (hours+24-2)%24;
           var mid='am';
@@ -137,6 +251,10 @@
       }
 
       function get_task_off_text(){
+          if (run) {
+              if (run["ampm"] == "am") return "Flag Out";
+              if (run["ampm"] == "pm") return "Flag In";
+          }
           var hours = new Date().getHours();
           var hours = (hours+24-2)%24;
           var mid='am';
@@ -148,31 +266,58 @@
           }
       }
 
+      function end_run(){
+          send_post(end_run_url, {"run_id": run["id"]});
+          window.location.replace(root_url);
+      }
+
+      function show_route_info(sub_id){
+          var sub_info = $("#subscriber_"+sub_id+"_info");
+          if(sub_info.css('display') == "none") sub_info.show();
+          else sub_info.hide();
+      }
+
+
       function setup(){
           $('.hide-unless-run').hide();
           //create subscription finish toggles.
           if (progress){
-              run = progress
+              run = progress;
               run_started(); //update_subscriptions used as callback and requires status parameter.
           }
           //Set up subscription toggles.
           $(".task-complete-checkbox").bootstrapToggle({
               on: get_task_on_text(),
               off: get_task_off_text()
-          })
+          });
 
           $('.task-complete-checkbox').on('change', function(event, state) {
               toggle_task_completion(this.value)
           });
+          $('.add-maintenance-note').on('click', function(event, state){
+              add_maintenance_note_modal(this.value);
+          });
+          $('.route-address').on('click', function(event, state){
+
+              //show_route_info(this.attributes.value.nodeValue);
+          });
 
           if (run_is_started){
               update_subscriptions(progress, 'success');
+
           }
+
+          populate_scouts();
+
+          $("#end_run_button").on("click", end_run);
+          $("#begin-run-submit").on("click", begin_run);
+          $("#maintenance-note-submit").on("click", add_maintenance_note);
+
           window.setInterval(function(){
               get_run_update()
-              console.log("Run updated.")
-          }, 2000);
+          }, 5000);
       }
+
 
 
       setup();
