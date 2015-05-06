@@ -3,6 +3,13 @@
 		<div class="alert alert-info" role="alert">
 			<p>You Have No Troops</p>
 		</div>
+	<!--<% if @groups.null? %>
+		<div class="alert alert-null" role="alert">
+			<p>Null exception thrown</p>
+		</div>
+		^Added the above because of a nil exception when creating view tests.
+		Incomplete test so I am commenting it out for now. G
+	-->
 	<% else %>
 		<% if !@user.blank? %>
       <div class="callout callout-empty">
